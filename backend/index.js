@@ -1,19 +1,26 @@
 const express = require("express");
 const moogoose = require("mongoose");
 const dotenv = require("dotenv");
+const restaurantRoutes = require("./src/routes/restaurantRoutes");
+const errorHandler = require("./src/middleware/errorHandler");
+
 const app = express();
 
+// Load environment variables from .env file
 dotenv.config();
 
-//middleware
+// Middleware to parse JSON bodies
 app.use(express.json());
 
+// Routes
+app.use("/api/restaurants", restaurantRoutes);
+
+// Error handling middleware
+app.use(errorHandler);
+
+// Connect to MongoDB
 const mongoURL =
   "mongodb+srv://pasindu123:Pasindu123@restuarentbackend.rfy2smt.mongodb.net/?retryWrites=true&w=majority&appName=restuarentBackend";
-
-app.get("/", (req, res) => {
-  res.send("hello from api");
-});
 
 moogoose
   .connect(mongoURL)
@@ -23,6 +30,6 @@ moogoose
       console.log(`Server is running on port 9900`);
     });
   })
-  .catch(() => {
-    console.log("Connection failed");
+  .catch((err) => {
+    console.error("Failed to connect to MongoDB", err);
   });
