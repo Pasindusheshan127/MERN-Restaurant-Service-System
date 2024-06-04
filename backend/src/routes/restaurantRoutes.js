@@ -3,6 +3,17 @@ const express = require("express");
 const router = express.Router();
 const restaurantController = require("../controllers/restaurantController");
 
+/*
+// Define a validation schema using Joi
+const restaurantSchema = Joi.object({
+  name: Joi.string().min(3).max(30).required(),
+  address: Joi.string().required(),
+  telephone: Joi.string()
+    .pattern(/^[0-9]+$/)
+    .required(),
+});
+*/
+
 // Route to create a new restaurant
 router.post("/", restaurantController.createRestaurant);
 

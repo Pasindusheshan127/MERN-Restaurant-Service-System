@@ -29,9 +29,10 @@ exports.createRestaurant = async (req, res, next) => {
 // Controller to get a restaurant by ID
 exports.getRestaurantById = async (req, res, next) => {
   try {
-    const restaurant = await Restaurant.findById(req.params.id);
+    const { id } = req.params;
+    const restaurant = await Restaurant.findById(id);
     if (!restaurant) return res.status(404).send("Restaurant not found");
-    res.send(restaurant);
+    res.status(200).send(restaurant);
   } catch (err) {
     next(err);
   }
@@ -51,7 +52,7 @@ exports.updateRestaurantById = async (req, res, next) => {
       { new: true }
     );
     if (!restaurant) return res.status(404).send("Restaurant not found");
-    res.send(restaurant);
+    res.status(200).send(restaurant);
   } catch (err) {
     next(err);
   }
