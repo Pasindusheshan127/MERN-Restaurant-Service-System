@@ -1,6 +1,5 @@
-// frontend/src/components/AddRestaurant.js
 import React, { useState } from "react";
-import { unstable_HistoryRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AddRestaurant = () => {
@@ -9,7 +8,7 @@ const AddRestaurant = () => {
     address: "",
     telephone: "",
   });
-  const history = unstable_HistoryRouter();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,10 +17,14 @@ const AddRestaurant = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:9900/api/restaurants", restaurant)
-      .then(() => history.push("/"))
-      .catch((error) => console.error("Error adding restaurant:", error));
+
+    try {
+      axios.post("http://localhost:9900/api/restaurants", restaurant);
+      // Navigate to the restaurant list after successful submission
+      navigate("/");
+    } catch (error) {
+      console.error("There was an error creating the restaurant!", error);
+    }
   };
 
   return (

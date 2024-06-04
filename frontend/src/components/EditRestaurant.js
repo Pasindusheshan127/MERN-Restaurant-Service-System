@@ -1,76 +1,83 @@
-// frontend/src/components/EditRestaurant.js
-import React, { useEffect, useState } from "react";
-import { unstable_HistoryRouter, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 
 const EditRestaurant = () => {
   const { id } = useParams();
-  const [restaurant, setRestaurant] = useState({
-    name: "",
-    address: "",
-    telephone: "",
-  });
-  const history = unstable_HistoryRouter();
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [telephone, setTelephone] = useState("");
+  const navigate = useNavigate(); // useNavigate instead of useHistory
 
   useEffect(() => {
-    axios
-      .get(`/api/restaurants/${id}`)
-      .then((response) => setRestaurant(response.data))
-      .catch((error) =>
-        console.error("Error fetching restaurant details:", error)
-      );
+    const fetchRestaurant = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:9900/api/restaurants/${id}`
+        );
+        const { name, address, telephone } = response.data;
+        setName(name);
+        setAddress(address);
+        setTelephone(telephone);
+      } catch (error) {
+        console.error("There was an error fetching the restaurant!", error);
+      }
+    };
+
+    fetchRestaurant();
   }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setRestaurant((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .put(`/api/restaurants/${id}`, restaurant)
-      .then(() => history.push("/"))
-      .catch((error) => console.error("Error updating restaurant:", error));
+
+    try {
+      await axios.put(`http://localhost:9900/api/restaurants/${id}`, {
+        name,
+        address,
+        telephone,
+      });
+      // Navigate to the restaurant list after successful update
+      navigate("/");
+    } catch (error) {
+      console.error("There was an error updating the restaurant!", error);
+    }
   };
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Edit Restaurant</h1>
+      <h2>Edit Restaurant</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name</label>
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
-            name="name"
-            value={restaurant.name}
-            onChange={handleChange}
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
         <div>
-          <label>Address</label>
+          <label htmlFor="address">Address:</label>
           <input
             type="text"
-            name="address"
-            value={restaurant.address}
-            onChange={handleChange}
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             required
           />
         </div>
         <div>
-          <label>Telephone</label>
+          <label htmlFor="telephone">Telephone:</label>
           <input
-            type="text"
-            name="telephone"
-            value={restaurant.telephone}
-            onChange={handleChange}
+            type="tel"
+            id="telephone"
+            value={telephone}
+            onChange={(e) => setTelephone(e.target.value)}
             required
           />
         </div>
-        <button type="submit" className="mt-4 bg-blue-500 text-white p-2">
-          Update
-        </button>
+        <button type="submit">Update Restaurant</button>
       </form>
     </div>
   );
