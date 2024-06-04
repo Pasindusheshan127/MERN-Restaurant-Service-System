@@ -1,6 +1,7 @@
 const express = require("express");
 const moogoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const restaurantRoutes = require("./src/routes/restaurantRoutes");
 const errorHandler = require("./src/middleware/errorHandler");
 
@@ -11,6 +12,8 @@ dotenv.config();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+// Enable CORS for all routes
+app.use(cors());
 
 // Routes
 app.use("/api/restaurants", restaurantRoutes);
