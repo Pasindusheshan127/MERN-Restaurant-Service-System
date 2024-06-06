@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  restaurant-service:
+    build: .
+    ports:
+      - "9900:9900"
+    environment:
+      - PORT=9900
+      - MONGO_URI=mongodb://mongodb:27017/restaurants
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:

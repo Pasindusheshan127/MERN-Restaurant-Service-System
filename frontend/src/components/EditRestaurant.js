@@ -44,40 +44,54 @@ const EditRestaurant = () => {
   };
 
   return (
-    <div>
-      <h2>Edit Restaurant</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="max-w-md p-6 mx-auto mt-10 bg-white rounded-md shadow-md">
+      <h2 className="mb-6 text-3xl font-bold">Edit Restaurant</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="name" className="block text-lg font-semibold">
+            Name:
+          </label>
           <input
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            className="block w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label htmlFor="address">Address:</label>
+          <label htmlFor="address" className="block text-lg font-semibold">
+            Address:
+          </label>
           <input
             type="text"
             id="address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required
+            className="block w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
-          <label htmlFor="telephone">Telephone:</label>
+          <label htmlFor="telephone" className="block text-lg font-semibold">
+            Telephone:
+          </label>
           <input
             type="tel"
             id="telephone"
             value={telephone}
             onChange={(e) => setTelephone(e.target.value)}
             required
+            className="block w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <button type="submit">Update Restaurant</button>
+        <button
+          type="submit"
+          className="w-full py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Update Restaurant
+        </button>
       </form>
     </div>
   );
