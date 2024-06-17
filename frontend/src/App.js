@@ -7,7 +7,7 @@ import EditRestaurant from "./components/EditRestaurant";
 function App() {
   return (
     <BrowserRouter>
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto  p-4">
         <Routes>
           <Route path="/" Component={RestaurantList} />
           <Route path="/restaurants/:id" Component={RestaurantDetail} />
