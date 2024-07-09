@@ -22,8 +22,7 @@ app.use("/api/restaurants", restaurantRoutes);
 app.use(errorHandler);
 
 // Connect to MongoDB
-const mongoURL =
-  "mongodb+srv://pasindu123:Pasindu123@restuarentbackend.rfy2smt.mongodb.net/?retryWrites=true&w=majority&appName=restuarentBackend";
+const mongoURL = process.env.MONGO_URL;
 
 moogoose
   .connect(mongoURL)
